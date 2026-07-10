@@ -1,0 +1,24 @@
+import { Router } from 'express';
+import auth from './auth.js';
+import dashboard from './dashboard.js';
+import messages from './messages.js';
+import tickets from './tickets.js';
+import events from './events.js';
+import documents from './documents.js';
+import surveys from './surveys.js';
+import rewards from './rewards.js';
+import notifications from './notifications.js';
+import admin from './admin.js';
+
+const router = Router();
+router.use('/auth', auth);
+router.use('/dashboard', dashboard);
+router.use('/messages', messages);
+router.use('/tickets', tickets);
+router.use('/events', events);
+router.use('/documents', documents);
+router.use('/surveys', surveys);
+router.use('/rewards', rewards);
+router.use('/notifications', notifications);
+router.use('/admin', admin);
+export default router;

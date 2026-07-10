@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-surface text-ink font-sans antialiased;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+           transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400
+           focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-700 shadow-sm hover:shadow-pop;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-ink ring-1 ring-slate-200 hover:bg-slate-50;
+  }
+  .btn-ghost {
+    @apply btn text-slatey hover:bg-slate-100;
+  }
+  .btn-danger {
+    @apply btn bg-rose-600 text-white hover:bg-rose-700;
+  }
+
+  .card {
+    @apply rounded-2xl bg-white shadow-card ring-1 ring-slate-100;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-ink
+           placeholder:text-slate-400 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slatey;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  /* Student experience helpers: bigger, friendlier, calmer */
+  .kid-card {
+    @apply rounded-blob bg-white shadow-soft ring-2 ring-brand-100;
+  }
+  .kid-btn {
+    @apply inline-flex items-center justify-center gap-3 rounded-blob px-6 py-5 font-kid text-kid-lg
+           font-semibold transition-transform duration-150 hover:scale-[1.02] active:scale-95
+           focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-200;
+  }
+}
