@@ -55,8 +55,23 @@ export const authenticate = asyncHandler(async (req, _res, next) => {
  * NOT self-provision arbitrary roles, which would be a privilege-escalation risk.
  */
 export const loadUser = asyncHandler(async (req, _res, next) => {
-  const { uid, email } = req.authIdentity;
+  const { uid, email, name, picture } = req.authIdentity;
   let user = await User.findOne({ $or: [{ firebaseUid: uid }, { email }] });
+
+  // Optional self-signup: create an account with a safe default role on first
+  // login. Controlled by ALLOW_SELF_SIGNUP so a school can require provisioning.
+  if (!user && env.allowSelfSignup) {
+    const ROLES = ['student', 'parent', 'teacher', 'admin'];
+    const role = ROLES.includes(env.selfSignupRole) ? env.selfSignupRole : 'parent';
+    user = await User.create({
+      email,
+      firebaseUid: uid && !uid.startsWith('demo_') ? uid : undefined,
+      displayName: name || email.split('@')[0],
+      photoURL: picture || '',
+      role,
+    });
+  }
+
   if (!user) throw httpError(403, 'No account provisioned for this identity. Contact your school admin.');
 
   // Bind the Firebase uid on first real login.

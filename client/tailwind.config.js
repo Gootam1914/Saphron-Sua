@@ -1,23 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Calm, professional SaaS palette (parent/admin)
+        // Saphron saffron/gold identity (primary brand)
         brand: {
-          50: '#eef4ff',
-          100: '#dce7ff',
-          200: '#bcd0ff',
-          300: '#8fb0ff',
-          400: '#5c86fb',
-          500: '#3a63f0',
-          600: '#2848d6',
-          700: '#2138ad',
-          800: '#20328a',
-          900: '#1f306e',
+          50: '#fff8ed',
+          100: '#ffeecc',
+          200: '#ffdd99',
+          300: '#fbc65a',
+          400: '#f4ab2a',
+          500: '#e6900f',
+          600: '#cc7a06',
+          700: '#a55f08',
+          800: '#844c0e',
+          900: '#6e400f',
         },
-        // Warm secondary used for accents / rewards
+        // Warm secondary accent
         saffron: {
           50: '#fff8ed',
           100: '#ffefd3',
@@ -35,17 +36,19 @@ export default {
         sky: '#4bb8e8',
         grape: '#8b6ff0',
         sun: '#ffcf4a',
-        ink: '#1f2733',
-        slatey: '#5b6472',
-        surface: '#f6f8fc',
+        // Semantic tokens driven by CSS variables so they flip in dark mode.
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        card: 'rgb(var(--card) / <alpha-value>)',
+        ink: 'rgb(var(--ink) / <alpha-value>)',
+        slatey: 'rgb(var(--slatey) / <alpha-value>)',
+        line: 'rgb(var(--line) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-        // Rounded, friendly face for the student experience
         kid: ['"Baloo 2"', 'Nunito', 'Inter', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        // Larger baseline sizes reused across the student UI
         'kid-base': ['1.25rem', { lineHeight: '1.9rem' }],
         'kid-lg': ['1.6rem', { lineHeight: '2.2rem' }],
         'kid-xl': ['2.2rem', { lineHeight: '2.6rem' }],
@@ -57,8 +60,8 @@ export default {
       },
       boxShadow: {
         card: '0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.10)',
-        soft: '0 8px 24px rgba(16,24,40,.08)',
-        pop: '0 12px 32px rgba(58,99,240,.18)',
+        soft: '0 8px 24px rgba(16,24,40,.10)',
+        pop: '0 12px 32px rgba(204,122,6,.22)',
       },
       keyframes: {
         'fade-in': { '0%': { opacity: 0, transform: 'translateY(4px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },

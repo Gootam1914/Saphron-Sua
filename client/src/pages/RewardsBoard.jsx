@@ -30,7 +30,7 @@ export default function RewardsBoard() {
 
       {isStudent && (
         <div className="mb-6 flex items-center gap-4 rounded-blob bg-gradient-to-br from-sun to-saffron-400 p-6 text-ink shadow-pop">
-          <div className="grid h-16 w-16 place-items-center rounded-full bg-white/40"><Trophy size={34} /></div>
+          <div className="grid h-16 w-16 place-items-center rounded-full bg-card/40"><Trophy size={34} /></div>
           <div>
             <p className="font-kid text-kid-lg font-bold">{data.totalPoints} star points</p>
             <p className="text-ink/70">{data.rewards.length} badges earned. Amazing!</p>

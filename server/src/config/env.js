@@ -9,6 +9,10 @@ export const env = {
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   mongoUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/saphron_sua',
   demoMode: bool(process.env.DEMO_MODE, true),
+  // When true, a verified login for an email that has no account yet is
+  // auto-provisioned with SELF_SIGNUP_ROLE. Off = admins must add users first.
+  allowSelfSignup: bool(process.env.ALLOW_SELF_SIGNUP, false),
+  selfSignupRole: (process.env.SELF_SIGNUP_ROLE || 'parent').toLowerCase(),
   fieldEncryptionKey: process.env.FIELD_ENCRYPTION_KEY || '',
   firebase: {
     projectId: process.env.FIREBASE_PROJECT_ID || '',

@@ -108,10 +108,10 @@ function BuildModal({ open, onClose, onDone }) {
           <input type="checkbox" checked={meta.anonymous} onChange={(e) => setMeta({ ...meta, anonymous: e.target.checked })} /> Anonymous responses
         </label>
 
-        <div className="space-y-3 rounded-xl border border-slate-100 p-3">
+        <div className="space-y-3 rounded-xl border border-line p-3">
           <p className="text-sm font-semibold text-ink">Questions</p>
           {questions.map((q, i) => (
-            <div key={i} className="rounded-lg bg-slate-50 p-3">
+            <div key={i} className="rounded-lg bg-muted p-3">
               <div className="flex items-center gap-2">
                 <Input value={q.prompt} onChange={(e) => updateQ(i, { prompt: e.target.value })} placeholder={`Question ${i + 1}`} className="flex-1" />
                 <button onClick={() => removeQ(i)} className="rounded-lg p-2 text-rose-500 hover:bg-rose-50"><Trash2 size={16} /></button>
@@ -168,23 +168,23 @@ function RespondModal({ survey, onClose, onDone }) {
             {q.type === 'rating' && (
               <div className="flex gap-1">
                 {Array.from({ length: q.scaleMax || 5 }, (_, n) => n + 1).map((n) => (
-                  <button key={n} onClick={() => setA(q._id, n)} className={`h-10 w-10 rounded-lg font-semibold ${answers[q._id] === n ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{n}</button>
+                  <button key={n} onClick={() => setA(q._id, n)} className={`h-10 w-10 rounded-lg font-semibold ${answers[q._id] === n ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{n}</button>
                 ))}
               </div>
             )}
             {q.type === 'yes_no' && (
               <div className="flex gap-2">
-                {['Yes', 'No'].map((o) => <button key={o} onClick={() => setA(q._id, o)} className={`chip ${answers[q._id] === o ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{o}</button>)}
+                {['Yes', 'No'].map((o) => <button key={o} onClick={() => setA(q._id, o)} className={`chip ${answers[q._id] === o ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{o}</button>)}
               </div>
             )}
             {q.type === 'single_choice' && (
               <div className="flex flex-wrap gap-2">
-                {q.options.map((o) => <button key={o} onClick={() => setA(q._id, o)} className={`chip ${answers[q._id] === o ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{o}</button>)}
+                {q.options.map((o) => <button key={o} onClick={() => setA(q._id, o)} className={`chip ${answers[q._id] === o ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{o}</button>)}
               </div>
             )}
             {q.type === 'multiple_choice' && (
               <div className="flex flex-wrap gap-2">
-                {q.options.map((o) => <button key={o} onClick={() => toggleMulti(q._id, o)} className={`chip ${(answers[q._id] || []).includes(o) ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{o}</button>)}
+                {q.options.map((o) => <button key={o} onClick={() => toggleMulti(q._id, o)} className={`chip ${(answers[q._id] || []).includes(o) ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{o}</button>)}
               </div>
             )}
             {q.type === 'short_text' && <Input value={answers[q._id] || ''} onChange={(e) => setA(q._id, e.target.value)} />}
@@ -218,7 +218,7 @@ function AnalyticsModal({ data, onClose }) {
                   return (
                     <div key={opt}>
                       <div className="flex justify-between text-sm"><span className="text-ink">{opt}</span><span className="text-slatey">{n}</span></div>
-                      <div className="h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-brand-500" style={{ width: `${pct}%` }} /></div>
+                      <div className="h-2 rounded-full bg-muted"><div className="h-2 rounded-full bg-brand-500" style={{ width: `${pct}%` }} /></div>
                     </div>
                   );
                 })}
@@ -227,7 +227,7 @@ function AnalyticsModal({ data, onClose }) {
             {q.summary.type === 'text' && (
               <ul className="space-y-1">
                 {q.summary.samples.length === 0 && <li className="text-sm text-slate-400">No responses yet.</li>}
-                {q.summary.samples.map((s, i) => <li key={i} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-ink">{s}</li>)}
+                {q.summary.samples.map((s, i) => <li key={i} className="rounded-lg bg-muted px-3 py-2 text-sm text-ink">{s}</li>)}
               </ul>
             )}
           </div>

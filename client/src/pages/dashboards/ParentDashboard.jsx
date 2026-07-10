@@ -23,7 +23,7 @@ export default function ParentDashboard({ data, profile }) {
             ) : (
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.children.map((c) => (
-                  <div key={c._id} className="flex items-center gap-3 rounded-xl border border-slate-100 p-3">
+                  <div key={c._id} className="flex items-center gap-3 rounded-xl border border-line p-3">
                     <Avatar name={c.displayName} src={c.photoURL} />
                     <div>
                       <p className="font-medium text-ink">{c.displayName}</p>

@@ -36,7 +36,7 @@ export default function TicketManager() {
       <div className="mb-4 flex items-center gap-2">
         <Filter size={16} className="text-slate-400" />
         {['', 'open', 'in_progress', 'resolved'].map((s) => (
-          <button key={s || 'all'} onClick={() => setStatusFilter(s)} className={`chip ${statusFilter === s ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>
+          <button key={s || 'all'} onClick={() => setStatusFilter(s)} className={`chip ${statusFilter === s ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>
             {s ? s.replace('_', ' ') : 'all'}
           </button>
         ))}
@@ -130,10 +130,10 @@ function TicketDetail({ ticket, isAdmin, admins, onClose, onChanged, setDetail }
           <Chip tone={PRIORITY_TONE[ticket.priority]}>{ticket.priority}</Chip>
           <Chip tone="gray">{CAT_LABEL[ticket.category]}</Chip>
         </div>
-        <p className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-ink">{ticket.description}</p>
+        <p className="rounded-lg bg-muted px-3 py-2 text-sm text-ink">{ticket.description}</p>
 
         {isAdmin && (
-          <div className="grid grid-cols-3 gap-3 rounded-xl border border-slate-100 p-3">
+          <div className="grid grid-cols-3 gap-3 rounded-xl border border-line p-3">
             <Select label="Status" value={ticket.status} onChange={(e) => patch({ status: e.target.value })} disabled={busy}>
               <option value="open">Open</option><option value="in_progress">In progress</option><option value="resolved">Resolved</option>
             </Select>

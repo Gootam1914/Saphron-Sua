@@ -45,6 +45,8 @@ async function run() {
   // ---- Users ----
   console.log('[seed] creating users...');
   const admin = await User.create({ email: 'admin@maplewood.edu', displayName: 'Dana Okafor', role: 'admin', school: school._id });
+  // Real admin account (signs in via Google SSO).
+  await User.create({ email: 'gkanakadandi@gmail.com', displayName: 'Goutam Kanakadandi', role: 'admin', school: school._id });
   const teacher = await User.create({ email: 'teacher@maplewood.edu', displayName: 'Mr. Reyes', role: 'teacher', school: school._id });
   const teacher2 = await User.create({ email: 'teacher2@maplewood.edu', displayName: 'Ms. Bennett', role: 'teacher', school: school._id });
 

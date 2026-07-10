@@ -35,7 +35,7 @@ export default function DocumentRepository() {
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Filter size={16} className="text-slate-400" />
         {['', 'permission_slip', 'newsletter', 'policy', 'form'].map((t) => (
-          <button key={t || 'all'} onClick={() => setFilter(t)} className={`chip ${filter === t ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{t ? TYPE_LABEL[t] : 'All'}</button>
+          <button key={t || 'all'} onClick={() => setFilter(t)} className={`chip ${filter === t ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{t ? TYPE_LABEL[t] : 'All'}</button>
         ))}
       </div>
 
@@ -46,7 +46,7 @@ export default function DocumentRepository() {
           {docs.map((d) => (
             <Card key={d._id} className="flex flex-col">
               <div className="flex items-start justify-between">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-slate-100 text-slatey"><FileText size={22} /></div>
+                <div className="grid h-11 w-11 place-items-center rounded-xl bg-muted text-slatey"><FileText size={22} /></div>
                 <Chip tone={TYPE_TONE[d.docType]}>{TYPE_LABEL[d.docType]}</Chip>
               </div>
               <p className="mt-3 font-medium text-ink">{d.title}</p>
@@ -112,7 +112,7 @@ function UploadModal({ open, onClose, onDone }) {
           <label className="label">Visible to (none = everyone)</label>
           <div className="flex flex-wrap gap-2">
             {['parent', 'teacher', 'student', 'admin'].map((r) => (
-              <button key={r} type="button" onClick={() => toggleRole(r)} className={`chip capitalize ${form.visibleToRoles.includes(r) ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{r}</button>
+              <button key={r} type="button" onClick={() => toggleRole(r)} className={`chip capitalize ${form.visibleToRoles.includes(r) ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{r}</button>
             ))}
           </div>
         </div>

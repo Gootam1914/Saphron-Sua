@@ -1,5 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  GithubAuthProvider,
+  TwitterAuthProvider,
+  OAuthProvider,
+} from 'firebase/auth';
 
 const cfg = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,12 +22,49 @@ const cfg = {
 export const firebaseConfigured = Boolean(cfg.apiKey && cfg.projectId);
 
 let auth = null;
-let googleProvider = null;
 if (firebaseConfigured) {
   const app = initializeApp(cfg);
   auth = getAuth(app);
-  googleProvider = new GoogleAuthProvider();
-  googleProvider.setCustomParameters({ prompt: 'select_account' });
 }
 
-export { auth, googleProvider };
+/**
+ * Build a fresh provider instance for a given key. Each must also be ENABLED in
+ * the Firebase console (Authentication > Sign-in method); some (Apple, Facebook,
+ * Microsoft, GitHub, X, Yahoo) additionally require an app registration on that
+ * platform. Until enabled, the button will show a friendly "not enabled" error.
+ */
+export function makeProvider(key) {
+  switch (key) {
+    case 'google': {
+      const p = new GoogleAuthProvider();
+      p.setCustomParameters({ prompt: 'select_account' });
+      return p;
+    }
+    case 'microsoft': {
+      const p = new OAuthProvider('microsoft.com');
+      p.setCustomParameters({ prompt: 'select_account' });
+      return p;
+    }
+    case 'apple': {
+      const p = new OAuthProvider('apple.com');
+      p.addScope('email');
+      p.addScope('name');
+      return p;
+    }
+    case 'yahoo':
+      return new OAuthProvider('yahoo.com');
+    case 'facebook':
+      return new FacebookAuthProvider();
+    case 'github':
+      return new GithubAuthProvider();
+    case 'twitter': // X
+      return new TwitterAuthProvider();
+    default:
+      throw new Error(`Unknown auth provider: ${key}`);
+  }
+}
+
+// Backwards-compatible export used by earlier code paths.
+export const googleProvider = firebaseConfigured ? makeProvider('google') : null;
+
+export { auth };

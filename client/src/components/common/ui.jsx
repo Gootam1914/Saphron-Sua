@@ -41,7 +41,7 @@ const TONES = {
   green: 'bg-emerald-50 text-emerald-700',
   amber: 'bg-amber-50 text-amber-700',
   red: 'bg-rose-50 text-rose-700',
-  gray: 'bg-slate-100 text-slate-600',
+  gray: 'bg-muted text-slatey',
   sky: 'bg-sky-50 text-sky-700',
   grape: 'bg-violet-50 text-violet-700',
 };
@@ -60,7 +60,7 @@ export function Spinner({ label = 'Loading…' }) {
 
 export function EmptyState({ icon: Icon, title, message, action }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white/60 px-6 py-14 text-center">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-card/60 px-6 py-14 text-center">
       {Icon && <Icon className="mb-3 text-slate-300" size={40} />}
       <p className="text-base font-semibold text-ink">{title}</p>
       {message && <p className="mt-1 max-w-sm text-sm text-slatey">{message}</p>}

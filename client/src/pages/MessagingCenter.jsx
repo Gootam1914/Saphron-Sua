@@ -45,10 +45,10 @@ export default function MessagingCenter() {
           {!conversations ? <Spinner /> : conversations.length === 0 ? (
             <div className="p-4"><EmptyState icon={Send} title="No conversations yet" message="Start a new message to reach a teacher, parent or admin." /></div>
           ) : (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-line">
               {conversations.map((c) => (
                 <li key={c._id}>
-                  <button onClick={() => openConvo(c._id)} className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-slate-50 ${active?.conversation?._id === c._id ? 'bg-brand-50/60' : ''}`}>
+                  <button onClick={() => openConvo(c._id)} className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-muted ${active?.conversation?._id === c._id ? 'bg-brand-50/60' : ''}`}>
                     {c.type === 'broadcast'
                       ? <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-100 text-saffron-600"><Megaphone size={18} /></div>
                       : <Avatar name={c.others?.[0]?.displayName || 'Group'} src={c.others?.[0]?.photoURL} />}
@@ -109,8 +109,8 @@ function Thread({ active, me, onSent, onBack }) {
 
   return (
     <>
-      <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-3">
-        <button className="rounded-lg p-1.5 text-slatey hover:bg-slate-100 lg:hidden" onClick={onBack}><ArrowLeft size={18} /></button>
+      <div className="flex items-center gap-3 border-b border-line px-4 py-3">
+        <button className="rounded-lg p-1.5 text-slatey hover:bg-muted lg:hidden" onClick={onBack}><ArrowLeft size={18} /></button>
         <div>
           <p className="font-semibold text-ink">{title}</p>
           {conversation.type === 'broadcast' && <Chip tone="amber">Class announcement</Chip>}
@@ -124,7 +124,7 @@ function Thread({ active, me, onSent, onBack }) {
           const pending = ['pending', 'flagged'].includes(m.moderationStatus);
           return (
             <div key={m._id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[78%] rounded-2xl px-4 py-2.5 ${mine ? 'bg-brand-600 text-white' : 'bg-slate-100 text-ink'}`}>
+              <div className={`max-w-[78%] rounded-2xl px-4 py-2.5 ${mine ? 'bg-brand-600 text-white' : 'bg-muted text-ink'}`}>
                 <p className="whitespace-pre-wrap break-words">{m.body}</p>
                 <div className={`mt-1 flex items-center gap-1 text-[11px] ${mine ? 'text-brand-100' : 'text-slate-400'}`}>
                   {pending && <><Clock size={11} /> waiting for teacher review · </>}
@@ -139,7 +139,7 @@ function Thread({ active, me, onSent, onBack }) {
       </div>
 
       {conversation.type !== 'broadcast' && (
-        <form onSubmit={send} className="border-t border-slate-100 p-3">
+        <form onSubmit={send} className="border-t border-line p-3">
           {err && <p className="mb-2 text-sm text-rose-600">{err}</p>}
           {isStudent && <p className="mb-2 flex items-center gap-1 text-xs text-slatey"><ShieldCheck size={13} /> Your teacher reads every message before it is sent.</p>}
           <div className="flex items-end gap-2">

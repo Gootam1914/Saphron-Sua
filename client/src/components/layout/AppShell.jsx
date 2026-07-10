@@ -4,6 +4,7 @@ import { Menu, LogOut, Bell, GraduationCap } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { navForRole } from './nav.js';
 import { Avatar, Chip } from '../common/ui.jsx';
+import ThemeToggle from '../common/ThemeToggle.jsx';
 import { api } from '../../lib/api.js';
 
 const ROLE_TONE = { admin: 'grape', teacher: 'sky', parent: 'brand', student: 'green' };
@@ -45,7 +46,7 @@ export default function AppShell() {
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
               `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-                isActive ? 'bg-brand-50 text-brand-700' : 'text-slatey hover:bg-slate-100'
+                isActive ? 'bg-brand-50 text-brand-700' : 'text-slatey hover:bg-muted'
               } ${isStudent ? 'text-base py-3' : ''}`
             }
           >
@@ -54,7 +55,7 @@ export default function AppShell() {
           </NavLink>
         ))}
       </nav>
-      <div className="border-t border-slate-100 p-3">
+      <div className="border-t border-line p-3">
         <div className="flex items-center gap-3 rounded-xl px-2 py-2">
           <Avatar name={profile?.displayName} src={profile?.photoURL} size={38} />
           <div className="min-w-0 flex-1">
@@ -64,7 +65,7 @@ export default function AppShell() {
         </div>
         <button
           onClick={async () => { await logout(); nav('/login'); }}
-          className="mt-2 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slatey hover:bg-slate-100"
+          className="mt-2 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slatey hover:bg-muted"
         >
           <LogOut size={16} /> Sign out
         </button>
@@ -75,23 +76,25 @@ export default function AppShell() {
   return (
     <div className="flex min-h-screen bg-surface">
       {/* Desktop sidebar */}
-      <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white lg:block">{SidebarInner}</aside>
+      <aside className="hidden w-64 shrink-0 border-r border-line bg-card lg:block">{SidebarInner}</aside>
 
       {/* Mobile drawer */}
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <div className="absolute inset-0 bg-ink/40" onClick={() => setOpen(false)} />
-          <aside className="absolute left-0 top-0 h-full w-64 bg-white shadow-soft animate-fade-in">{SidebarInner}</aside>
+          <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
+          <aside className="absolute left-0 top-0 h-full w-64 bg-card shadow-soft animate-fade-in">{SidebarInner}</aside>
         </div>
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur">
-          <button className="rounded-lg p-2 text-slatey hover:bg-slate-100 lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
+        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-card/80 px-4 py-3 backdrop-blur">
+          <button className="rounded-lg p-2 text-slatey hover:bg-muted lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu size={20} />
           </button>
           <div className="hidden lg:block" />
-          <NavLink to="/notifications" className="relative rounded-lg p-2 text-slatey hover:bg-slate-100" aria-label="Notifications">
+          <div className="flex items-center gap-1">
+          <ThemeToggle />
+          <NavLink to="/notifications" className="relative rounded-lg p-2 text-slatey hover:bg-muted" aria-label="Notifications">
             <Bell size={20} />
             {unread > 0 && (
               <span className="absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-rose-500 px-1 text-[11px] font-bold text-white">
@@ -99,6 +102,7 @@ export default function AppShell() {
               </span>
             )}
           </NavLink>
+          </div>
         </header>
         <main className={`flex-1 ${isStudent ? 'p-5 sm:p-8' : 'p-4 sm:p-6 lg:p-8'} animate-fade-in`}>
           <Outlet />

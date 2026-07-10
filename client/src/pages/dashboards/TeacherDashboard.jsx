@@ -34,7 +34,7 @@ export default function TeacherDashboard({ data, profile }) {
 
 function Action({ to, icon: Icon, title, desc }) {
   return (
-    <Link to={to} className="group flex items-start gap-3 rounded-xl border border-slate-100 p-4 transition-all hover:border-brand-300 hover:shadow-card">
+    <Link to={to} className="group flex items-start gap-3 rounded-xl border border-line p-4 transition-all hover:border-brand-300 hover:shadow-card">
       <div className="grid h-10 w-10 place-items-center rounded-lg bg-sky-50 text-sky-600"><Icon size={20} /></div>
       <div><p className="font-medium text-ink">{title}</p><p className="text-xs text-slatey">{desc}</p></div>
     </Link>

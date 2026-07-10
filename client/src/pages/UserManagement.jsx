@@ -48,7 +48,7 @@ export default function UserManagement() {
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search name or email…" className="input pl-9" />
         </div>
         {['', 'admin', 'teacher', 'parent', 'student'].map((r) => (
-          <button key={r || 'all'} onClick={() => setRoleFilter(r)} className={`chip capitalize ${roleFilter === r ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slatey'}`}>{r || 'all'}</button>
+          <button key={r || 'all'} onClick={() => setRoleFilter(r)} className={`chip capitalize ${roleFilter === r ? 'bg-brand-600 text-white' : 'bg-muted text-slatey'}`}>{r || 'all'}</button>
         ))}
       </div>
 
@@ -56,7 +56,7 @@ export default function UserManagement() {
         <EmptyState icon={UserPlus} title="No users found" message="Try a different search or add a new user." />
       ) : (
         <Card className="p-0">
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-line">
             {users.map((u) => (
               <div key={u._id} className="flex flex-wrap items-center gap-3 px-4 py-3">
                 <Avatar name={u.displayName} src={u.photoURL} />

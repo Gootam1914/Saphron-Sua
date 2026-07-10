@@ -40,9 +40,9 @@ export default function NotificationSettings() {
         actions={tab === 'inbox' ? <Button variant="secondary" onClick={markAll}><Check size={16} /> Mark all read</Button> : null}
       />
 
-      <div className="mb-4 flex gap-1 rounded-xl bg-slate-100 p-1">
+      <div className="mb-4 flex gap-1 rounded-xl bg-muted p-1">
         {[['inbox', 'Inbox', Bell], ['settings', 'Settings', Settings]].map(([id, label, Icon]) => (
-          <button key={id} onClick={() => setTab(id)} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-colors ${tab === id ? 'bg-white text-ink shadow-sm' : 'text-slatey'}`}>
+          <button key={id} onClick={() => setTab(id)} className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-colors ${tab === id ? 'bg-card text-ink shadow-sm' : 'text-slatey'}`}>
             <Icon size={16} /> {label}
           </button>
         ))}
@@ -57,13 +57,13 @@ export default function NotificationSettings() {
               const Icon = TYPE_ICON[n.type] || Bell;
               return (
                 <Card key={n._id} className={`flex items-start gap-3 ${n.read ? '' : 'ring-1 ring-brand-200'}`}>
-                  <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${n.read ? 'bg-slate-100 text-slatey' : 'bg-brand-50 text-brand-600'}`}><Icon size={18} /></div>
+                  <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${n.read ? 'bg-muted text-slatey' : 'bg-brand-50 text-brand-600'}`}><Icon size={18} /></div>
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-ink">{n.title}</p>
                     {n.body && <p className="text-sm text-slatey">{n.body}</p>}
                     <p className="mt-0.5 text-xs text-slate-400">{formatDistanceToNow(new Date(n.createdAt), { addSuffix: true })}</p>
                   </div>
-                  {!n.read && <button onClick={() => markOne(n._id)} className="shrink-0 rounded-lg p-1.5 text-slatey hover:bg-slate-100" title="Mark read"><Check size={16} /></button>}
+                  {!n.read && <button onClick={() => markOne(n._id)} className="shrink-0 rounded-lg p-1.5 text-slatey hover:bg-muted" title="Mark read"><Check size={16} /></button>}
                 </Card>
               );
             })}
@@ -75,13 +75,13 @@ export default function NotificationSettings() {
             <p className="mb-4 text-sm text-slatey">Choose which in-app notifications you receive.{saving ? ' Saving…' : ''}</p>
             <div className="space-y-1">
               {PREF_ROWS.map(({ key, label, icon: Icon }) => (
-                <label key={key} className="flex items-center justify-between rounded-xl px-2 py-3 hover:bg-slate-50">
+                <label key={key} className="flex items-center justify-between rounded-xl px-2 py-3 hover:bg-muted">
                   <span className="flex items-center gap-3 text-sm font-medium text-ink"><Icon size={18} className="text-slatey" /> {label}</span>
                   <input type="checkbox" checked={prefs[key] !== false} onChange={(e) => savePrefs({ ...prefs, [key]: e.target.checked })} className="h-5 w-5 rounded" />
                 </label>
               ))}
             </div>
-            <div className="mt-4 border-t border-slate-100 pt-4">
+            <div className="mt-4 border-t border-line pt-4">
               <label className="label">Delivery channel</label>
               <select className="input" value={prefs.channel || 'in_app'} onChange={(e) => savePrefs({ ...prefs, channel: e.target.value })}>
                 <option value="in_app">In-app only</option>

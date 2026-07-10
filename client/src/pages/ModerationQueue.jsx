@@ -41,7 +41,7 @@ export default function ModerationQueue() {
                       ? <Chip tone="red"><AlertTriangle size={12} /> flagged: {m.flaggedTerms?.join(', ')}</Chip>
                       : <Chip tone="amber">pending</Chip>}
                   </div>
-                  <p className="mt-1 max-w-xl rounded-lg bg-slate-50 px-3 py-2 text-sm text-ink">{m.body}</p>
+                  <p className="mt-1 max-w-xl rounded-lg bg-muted px-3 py-2 text-sm text-ink">{m.body}</p>
                   <p className="mt-1 text-xs text-slate-400">{formatDistanceToNow(new Date(m.createdAt), { addSuffix: true })}</p>
                 </div>
               </div>

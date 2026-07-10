@@ -34,7 +34,7 @@ export function UpcomingEvents({ events = [] }) {
       ) : (
         <ul className="space-y-2">
           {events.map((e) => (
-            <li key={e._id} className="flex items-center gap-3 rounded-xl border border-slate-100 p-3">
+            <li key={e._id} className="flex items-center gap-3 rounded-xl border border-line p-3">
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-brand-50 text-center">
                 <span className="text-[10px] font-semibold uppercase text-brand-500">{format(new Date(e.startsAt), 'MMM')}</span>
                 <span className="text-base font-bold leading-none text-brand-700">{format(new Date(e.startsAt), 'd')}</span>

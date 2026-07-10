@@ -16,7 +16,7 @@ const PILL = {
   classroom: 'bg-sky-100 text-sky-700',
   school_wide: 'bg-violet-100 text-violet-700',
   holiday: 'bg-amber-100 text-amber-700',
-  other: 'bg-slate-100 text-slate-700',
+  other: 'bg-muted text-slatey',
 };
 
 export default function EventCalendar() {
@@ -54,25 +54,25 @@ export default function EventCalendar() {
       />
 
       <Card className="p-0">
-        <div className="flex items-center justify-between border-b border-slate-100 p-4">
+        <div className="flex items-center justify-between border-b border-line p-4">
           <h3 className="text-lg font-semibold text-ink">{format(cursor, 'MMMM yyyy')}</h3>
           <div className="flex gap-1">
-            <button className="rounded-lg p-2 text-slatey hover:bg-slate-100" onClick={() => setCursor(subMonths(cursor, 1))}><ChevronLeft size={18} /></button>
+            <button className="rounded-lg p-2 text-slatey hover:bg-muted" onClick={() => setCursor(subMonths(cursor, 1))}><ChevronLeft size={18} /></button>
             <button className="btn-ghost" onClick={() => setCursor(new Date())}>Today</button>
-            <button className="rounded-lg p-2 text-slatey hover:bg-slate-100" onClick={() => setCursor(addMonths(cursor, 1))}><ChevronRight size={18} /></button>
+            <button className="rounded-lg p-2 text-slatey hover:bg-muted" onClick={() => setCursor(addMonths(cursor, 1))}><ChevronRight size={18} /></button>
           </div>
         </div>
 
         {!events ? <Spinner /> : (
-          <div className="grid grid-cols-7 gap-px bg-slate-100 p-px">
+          <div className="grid grid-cols-7 gap-px bg-muted p-px">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
-              <div key={d} className="bg-slate-50 py-2 text-center text-xs font-semibold text-slate-500">{d}</div>
+              <div key={d} className="bg-muted py-2 text-center text-xs font-semibold text-slate-500">{d}</div>
             ))}
             {days.map((day) => {
               const k = format(day, 'yyyy-MM-dd');
               const dayEvents = eventsByDay[k] || [];
               return (
-                <div key={k} className={`min-h-[92px] bg-white p-1.5 ${isSameMonth(day, cursor) ? '' : 'bg-slate-50/60'}`}>
+                <div key={k} className={`min-h-[92px] bg-card p-1.5 ${isSameMonth(day, cursor) ? '' : 'bg-muted/60'}`}>
                   <div className={`mb-1 grid h-6 w-6 place-items-center rounded-full text-xs ${isToday(day) ? 'bg-brand-600 font-bold text-white' : 'text-slatey'}`}>{format(day, 'd')}</div>
                   <div className="space-y-1">
                     {dayEvents.slice(0, 3).map((e) => (
