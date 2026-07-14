@@ -22,7 +22,7 @@ export default function surveysView({ profile }) {
           mine ? el('button', { class: 'btn btn--ghost btn--sm', text: 'Results (' + (s.responseCount || 0) + ')', onclick: () => analytics(s) }) : null,
           mine ? el('button', { class: 'btn btn--ghost btn--sm', text: s.status === 'open' ? 'Close' : 'Open', onclick: async () => { await api.patch('/surveys/' + s._id, { status: s.status === 'open' ? 'closed' : 'open' }); load(); } }) : null,
         ]),
-      ];
+      ]);
     })));
   }).catch((e) => grid.replaceChildren(el('div', { class: 'error-box', text: e.message })));
 
