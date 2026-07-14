@@ -15,6 +15,7 @@ import surveysView from './views/surveys.js';
 import rewardsView from './views/rewards.js';
 import notificationsView from './views/notifications.js';
 import usersView from './views/users.js';
+import settingsView from './views/settings.js';
 
 route('/login', loginView, { public: true });
 route('/', dashboardView);
@@ -28,6 +29,7 @@ route('/surveys', surveysView, { roles: ['admin', 'parent', 'teacher'] });
 route('/rewards', rewardsView);
 route('/notifications', notificationsView);
 route('/users', usersView, { roles: ['admin'] });
+route('/settings', settingsView, { roles: ['admin'] });
 route('/404', () => el('div', { class: 'empty' }, [el('b', { text: 'Page not found' })]), { public: true });
 
 const app = document.getElementById('app');

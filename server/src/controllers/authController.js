@@ -25,3 +25,10 @@ export const updateMe = asyncHandler(async (req, res) => {
 export const getPublicConfig = (_req, res) => {
   res.json({ demoMode: env.demoMode });
 };
+
+// GET /api/auth/org - the current organization (school), for header/branding.
+export const getOrg = asyncHandler(async (_req, res) => {
+  const School = (await import('../models/School.js')).default;
+  const school = await School.findOne().lean();
+  res.json({ org: school ? { id: school._id, name: school.name, timezone: school.timezone } : null });
+});

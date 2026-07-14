@@ -14,6 +14,7 @@ const NAV = [
   { to: '/surveys', label: 'Surveys', ic: 'clipboard', roles: ['admin', 'parent', 'teacher'] },
   { to: '/rewards', label: 'Rewards', ic: 'award', roles: ['admin', 'parent', 'teacher', 'student'] },
   { to: '/users', label: 'Users', ic: 'users', roles: ['admin'] },
+  { to: '/settings', label: 'Settings', ic: 'settings', roles: ['admin'] },
   { to: '/notifications', label: 'Notifications', ic: 'bell', roles: ['admin', 'parent', 'teacher', 'student'] },
 ];
 
@@ -22,35 +23,25 @@ export function renderShell(content) {
   const path = currentPath();
   const role = profile?.role;
 
+  const orgName = el('span', { class: 'rail__org', text: '' });
+  api.get('/auth/org').then((d) => { if (d.org?.name) orgName.textContent = d.org.name; }).catch(() => {});
+
   const rail = el('aside', { class: 'rail', id: 'rail' }, [
     el('div', { class: 'rail__brand' }, [
-      el('img', { src: '/assets/logo.webp', alt: 'Saphron Sua' }),
-      el('b', { text: 'Saphron Sua' }),
+      el('span', { class: 'dashmark', style: 'width:34px;height:34px;color:var(--gold)' }, el('img', { src: '/assets/logo.webp', alt: '' })),
+      el('div', {}, [el('b', { text: 'Saphron Sua' }), orgName]),
     ]),
-    ...NAV.filter((n) => n.roles.includes(role)).map((n) =>
-      el('a', {
-        class: 'nav-item' + (path === n.to ? ' active' : ''),
-        href: '#' + n.to,
-        html: icon(n.ic) + `<span>${n.label}</span>`,
-      })
-    ),
-    el('div', { class: 'rail__spacer' }),
-    el('div', { class: 'rail__user' }, [
-      avatar(profile?.displayName || '?', 36),
-      el('div', { class: 'row__main' }, [
-        el('b', { text: profile?.displayName || '', style: 'font-size:13px' }),
-        el('small', { class: 'chip chip--gold', text: role, style: 'text-transform:capitalize' }),
-      ]),
-    ]),
-    el('button', { class: 'nav-item', style: 'background:none;border:0;width:100%;text-align:left',
-      html: icon('logout') + '<span>Sign out</span>',
-      onclick: async () => { await logout(); navigate('/login'); } }),
+    el('nav', { class: 'rail__nav' },
+      NAV.filter((n) => n.roles.includes(role)).map((n) =>
+        el('a', { class: 'nav-item' + (path === n.to ? ' active' : ''), href: '#' + n.to, html: icon(n.ic) + `<span>${n.label}</span>` })
+      )),
   ]);
 
+  // ---- top bar (user menu lives here, top-right) ----
   const menuBtn = el('button', { class: 'iconbtn topbar__menu', html: icon('menu'),
     onclick: () => document.getElementById('rail')?.classList.toggle('open') });
 
-  const themeBtn = el('button', { class: 'iconbtn', html: icon(currentTheme() === 'dark' ? 'sun' : 'moon'),
+  const themeBtn = el('button', { class: 'iconbtn', title: 'Toggle theme', html: icon(currentTheme() === 'dark' ? 'sun' : 'moon'),
     onclick: (e) => { const t = toggleTheme(); e.currentTarget.innerHTML = icon(t === 'dark' ? 'sun' : 'moon'); } });
 
   const bell = el('a', { href: '#/notifications', class: 'iconbtn', style: 'position:relative', html: icon('bell') });
@@ -58,14 +49,35 @@ export function renderShell(content) {
     if (d.unreadCount > 0) bell.appendChild(el('span', { class: 'badge-dot', text: d.unreadCount > 9 ? '9+' : String(d.unreadCount) }));
   }).catch(() => {});
 
+  // User menu: avatar button + dropdown
+  const menuPanel = el('div', { class: 'usermenu__panel', hidden: true }, [
+    el('div', { class: 'usermenu__head' }, [
+      avatar(profile?.displayName || '?', 40),
+      el('div', { style: 'min-width:0' }, [
+        el('b', { text: profile?.displayName || '', style: 'display:block;overflow:hidden;text-overflow:ellipsis' }),
+        el('small', { class: 'helper', text: profile?.email || '' }),
+      ]),
+    ]),
+    el('div', { class: 'usermenu__role' }, el('span', { class: 'chip chip--gold', style: 'text-transform:capitalize', text: role })),
+    el('hr', { class: 'divider' }),
+    role === 'admin' ? el('a', { href: '#/settings', class: 'usermenu__item', html: icon('settings', 16) + '<span>Organization settings</span>', onclick: () => toggle(false) }) : null,
+    el('a', { href: '#/notifications', class: 'usermenu__item', html: icon('bell', 16) + '<span>Notifications</span>', onclick: () => toggle(false) }),
+    el('button', { class: 'usermenu__item', html: icon('logout', 16) + '<span>Sign out</span>', onclick: async () => { await logout(); navigate('/login'); } }),
+  ]);
+  const avatarBtn = el('button', { class: 'usermenu__btn', 'aria-label': 'Account', onclick: (e) => { e.stopPropagation(); toggle(); } }, [
+    avatar(profile?.displayName || '?', 34),
+  ]);
+  function toggle(force) {
+    const show = force === undefined ? menuPanel.hidden : force;
+    menuPanel.hidden = !show;
+  }
+  document.addEventListener('click', () => { menuPanel.hidden = true; }, { once: false });
+  const userMenu = el('div', { class: 'usermenu', onclick: (e) => e.stopPropagation() }, [avatarBtn, menuPanel]);
+
   const topbar = el('div', { class: 'topbar' }, [
     menuBtn,
-    el('div', { class: 'search' }, [
-      el('span', { html: icon('search') }),
-      el('input', { placeholder: 'Search Saphron Sua', 'aria-label': 'Search' }),
-    ]),
-    themeBtn,
-    bell,
+    el('div', { class: 'search' }, [el('span', { html: icon('search') }), el('input', { placeholder: 'Search Saphron Sua', 'aria-label': 'Search' })]),
+    el('div', { style: 'display:flex;align-items:center;gap:6px' }, [themeBtn, bell, userMenu]),
   ]);
 
   const contentWrap = el('div', { class: 'content' }, [el('div', { class: 'content__wrap' }, content)]);

@@ -58,18 +58,30 @@ export const loadUser = asyncHandler(async (req, _res, next) => {
   const { uid, email, name, picture } = req.authIdentity;
   let user = await User.findOne({ $or: [{ firebaseUid: uid }, { email }] });
 
-  // Optional self-signup: create an account with a safe default role on first
-  // login. Controlled by ALLOW_SELF_SIGNUP so a school can require provisioning.
-  if (!user && env.allowSelfSignup) {
-    const ROLES = ['student', 'parent', 'teacher', 'admin'];
-    const role = ROLES.includes(env.selfSignupRole) ? env.selfSignupRole : 'parent';
-    user = await User.create({
-      email,
-      firebaseUid: uid && !uid.startsWith('demo_') ? uid : undefined,
-      displayName: name || email.split('@')[0],
-      photoURL: picture || '',
-      role,
-    });
+  // Bootstrap + optional self-signup.
+  //  - If the database has NO users yet, the very first person to sign in becomes
+  //    the owner ADMIN. This lets an administration set up its own system from a
+  //    fresh install without any manual provisioning.
+  //  - Otherwise, if ALLOW_SELF_SIGNUP is on, new sign-ins are created with the
+  //    default role (SELF_SIGNUP_ROLE). If it's off, they must be provisioned.
+  if (!user) {
+    const userCount = await User.estimatedDocumentCount();
+    const isFirstUser = userCount === 0;
+    if (isFirstUser || env.allowSelfSignup) {
+      const ROLES = ['student', 'parent', 'teacher', 'admin'];
+      const role = isFirstUser ? 'admin' : (ROLES.includes(env.selfSignupRole) ? env.selfSignupRole : 'parent');
+      // Attach new users to the existing organization if one has been created.
+      const School = (await import('../models/School.js')).default;
+      const org = await School.findOne().select('_id').lean();
+      user = await User.create({
+        email,
+        firebaseUid: uid && !uid.startsWith('demo_') ? uid : undefined,
+        displayName: name || email.split('@')[0],
+        photoURL: picture || '',
+        role,
+        school: org?._id,
+      });
+    }
   }
 
   if (!user) throw httpError(403, 'No account provisioned for this identity. Contact your school admin.');

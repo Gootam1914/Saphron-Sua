@@ -5,6 +5,7 @@ import Ticket from '../models/Ticket.js';
 import Event from '../models/Event.js';
 import Survey from '../models/Survey.js';
 import Message from '../models/Message.js';
+import School from '../models/School.js';
 
 // GET /api/admin/users - list/search users.
 export const listUsers = asyncHandler(async (req, res) => {
@@ -49,6 +50,31 @@ export const deactivateUser = asyncHandler(async (req, res) => {
   user.isActive = false;
   await user.save();
   res.json({ ok: true });
+});
+
+// GET /api/admin/school - the organization record (or null).
+export const getSchool = asyncHandler(async (_req, res) => {
+  const school = await School.findOne().lean();
+  res.json({ org: school || null });
+});
+
+// POST /api/admin/school - create or rename the organization (an admin sets up
+// their own system here). Single-organization model for now.
+export const upsertSchool = asyncHandler(async (req, res) => {
+  const { name, timezone, emailDomain } = req.body;
+  if (!name || !name.trim()) throw httpError(400, 'An organization name is required.');
+  let school = await School.findOne();
+  if (!school) {
+    school = await School.create({ name: name.trim(), timezone, emailDomain });
+  } else {
+    school.name = name.trim();
+    if (timezone !== undefined) school.timezone = timezone;
+    if (emailDomain !== undefined) school.emailDomain = emailDomain;
+    await school.save();
+  }
+  // Attach any users who aren't linked to an organization yet.
+  await User.updateMany({ school: { $exists: false } }, { school: school._id });
+  res.json({ org: school });
 });
 
 // GET /api/admin/classrooms
