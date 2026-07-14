@@ -1,8 +1,8 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
 import {
-  getAuth, onAuthStateChanged, signInWithPopup, signOut,
+  getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
-  GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, TwitterAuthProvider, OAuthProvider,
+  GoogleAuthProvider, OAuthProvider,
 } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
 import { CONFIG } from './config.js';
 
@@ -14,16 +14,11 @@ export function makeProvider(key) {
   switch (key) {
     case 'google': { const p = new GoogleAuthProvider(); p.setCustomParameters({ prompt: 'select_account' }); return p; }
     case 'microsoft': { const p = new OAuthProvider('microsoft.com'); p.setCustomParameters({ prompt: 'select_account' }); return p; }
-    case 'apple': { const p = new OAuthProvider('apple.com'); p.addScope('email'); p.addScope('name'); return p; }
-    case 'yahoo': return new OAuthProvider('yahoo.com');
-    case 'facebook': return new FacebookAuthProvider();
-    case 'github': return new GithubAuthProvider();
-    case 'twitter': return new TwitterAuthProvider();
     default: throw new Error('Unknown provider ' + key);
   }
 }
 
 export {
-  onAuthStateChanged, signInWithPopup, signOut,
+  onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
 };

@@ -1,5 +1,5 @@
 import {
-  auth, firebaseConfigured, makeProvider, onAuthStateChanged, signInWithPopup, signOut,
+  auth, firebaseConfigured, makeProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
 } from './firebase.js';
 import { api, setTokenGetter } from './api.js';
@@ -40,6 +40,8 @@ async function loadProfile() {
 
 export function initAuth() {
   if (firebaseConfigured) {
+    // Complete any redirect-based sign-in that bounced back to the app.
+    getRedirectResult(auth).catch(() => {});
     onAuthStateChanged(auth, (u) => { state.fbUser = u; loadProfile(); });
   } else {
     loadProfile();
@@ -65,8 +67,19 @@ function friendly(err) {
 
 export async function loginWithProvider(key) {
   if (!firebaseConfigured) throw new Error('Sign-in is not configured.');
-  try { const r = await signInWithPopup(auth, makeProvider(key)); enforceDomain(r.user); }
-  catch (e) { throw new Error(friendly(e)); }
+  const provider = makeProvider(key);
+  try {
+    const r = await signInWithPopup(auth, provider);
+    enforceDomain(r.user);
+  } catch (e) {
+    const code = e?.code || '';
+    // If the popup was blocked or couldn't communicate, fall back to a full-page redirect.
+    if (code === 'auth/popup-blocked' || code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+      await signInWithRedirect(auth, provider);
+      return;
+    }
+    throw new Error(friendly(e));
+  }
 }
 export async function loginWithEmail(email, password) {
   try { const r = await signInWithEmailAndPassword(auth, email, password); enforceDomain(r.user); }

@@ -28,7 +28,17 @@ async function bootstrap() {
   // Sensible security headers. CSP is disabled because the frontend loads the
   // Firebase SDK from gstatic and fonts from Google; lock this down per-source
   // before a real production launch.
-  app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+  // NOTE: Cross-Origin-Opener-Policy must NOT be 'same-origin' or it severs the
+  // Firebase sign-in popup (causes a false "popup-closed-by-user" error). We relax
+  // COOP/COEP/CORP so the Google/Microsoft popups and the gstatic SDK work.
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginOpenerPolicy: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false,
+    })
+  );
   app.use(cors({ origin: env.clientOrigin === '*' ? true : env.clientOrigin.split(','), credentials: true }));
   app.use(express.json({ limit: '1mb' }));
   app.use(morgan(isProd ? 'combined' : 'dev'));
