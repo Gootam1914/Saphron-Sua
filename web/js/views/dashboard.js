@@ -37,7 +37,7 @@ export default function dashboardView({ profile }) {
     const head = el('div', { class: 'page-head reveal' }, [
       el('div', {}, [
         el('span', { class: 'eyebrow', text: profile.role }),
-        el('h1', { class: 'display', style: 'font-size:32px;margin-top:6px', text: (d.role === 'student' ? 'HI, ' : 'WELCOME, ') + (first || '').toUpperCase() }),
+        el('h1', { class: 'display', style: 'font-size:32px;margin-top:6px', text: (d.role === 'student' ? 'Hi, ' : 'Welcome, ') + (first || '') }),
         el('p', { text: role_subtitle(d.role) }),
       ]),
     ]);

@@ -42,7 +42,7 @@ export default function settingsView() {
   }
 
   root.append(
-    el('div', { class: 'page-head' }, [el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'SETTINGS' }), el('p', { text: 'Set up and manage your organization' })])]),
+    el('div', { class: 'page-head' }, [el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Settings' }), el('p', { text: 'Set up and manage your organization' })])]),
     body,
   );
   load();

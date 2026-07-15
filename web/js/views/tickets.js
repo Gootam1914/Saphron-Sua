@@ -62,7 +62,7 @@ export default function ticketsView({ profile }) {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: isAdmin ? 'TICKETING' : 'MY TICKETS' }), el('p', { text: isAdmin ? 'Assign, prioritize and resolve' : 'Track your requests' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: isAdmin ? 'Ticketing' : 'My tickets' }), el('p', { text: isAdmin ? 'Assign, prioritize and resolve' : 'Track your requests' })]),
     el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' New ticket', onclick: create }),
   ]), tabs, list);
   load();

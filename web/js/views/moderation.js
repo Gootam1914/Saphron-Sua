@@ -28,7 +28,7 @@ export default function moderationView() {
   const decide = async (id, decision) => { try { await api.post('/messages/moderation/' + id, { decision }); toast(decision === 'approve' ? 'Approved' : 'Rejected'); load(); } catch (e) { toast(e.message, 'err'); } };
 
   root.append(
-    el('div', { class: 'page-head' }, [el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'MODERATION' }), el('p', { text: 'Review student messages before they are delivered' })])]),
+    el('div', { class: 'page-head' }, [el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Moderation' }), el('p', { text: 'Review student messages before they are delivered' })])]),
     el('div', { class: 'card', style: 'margin-bottom:16px;display:flex;gap:10px;align-items:flex-start', html: icon('shield', 18) + '<span class="helper">Every message a student sends waits here until you approve it. Approved messages are delivered; rejected ones are never sent.</span>' }),
     list,
   );

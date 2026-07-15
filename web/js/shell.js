@@ -35,6 +35,17 @@ export function renderShell(content) {
       NAV.filter((n) => n.roles.includes(role)).map((n) =>
         el('a', { class: 'nav-item' + (path === n.to ? ' active' : ''), href: '#' + n.to, html: icon(n.ic) + `<span>${n.label}</span>` })
       )),
+    el('div', { class: 'rail__spacer' }),
+    el('button', {
+      class: 'rail__collapse', title: 'Collapse sidebar',
+      html: icon('chevrons', 18) + '<span>Collapse</span>',
+      onclick: () => {
+        const sh = document.querySelector('.shell');
+        if (!sh) return;
+        const collapsed = sh.classList.toggle('rail-collapsed');
+        localStorage.setItem('sua_rail_collapsed', collapsed ? '1' : '0');
+      },
+    }),
   ]);
 
   // ---- top bar (user menu lives here, top-right) ----
@@ -77,10 +88,11 @@ export function renderShell(content) {
   const topbar = el('div', { class: 'topbar' }, [
     menuBtn,
     el('div', { class: 'search' }, [el('span', { html: icon('search') }), el('input', { placeholder: 'Search Saphron Sua', 'aria-label': 'Search' })]),
-    el('div', { style: 'display:flex;align-items:center;gap:6px' }, [themeBtn, bell, userMenu]),
+    el('div', { class: 'topbar__right' }, [themeBtn, bell, userMenu]),
   ]);
 
   const contentWrap = el('div', { class: 'content' }, [el('div', { class: 'content__wrap' }, content)]);
   const main = el('div', { class: 'main' }, [topbar, contentWrap]);
-  return el('div', { class: 'shell' }, [rail, main]);
+  const collapsed = localStorage.getItem('sua_rail_collapsed') === '1';
+  return el('div', { class: 'shell' + (collapsed ? ' rail-collapsed' : '') }, [rail, main]);
 }

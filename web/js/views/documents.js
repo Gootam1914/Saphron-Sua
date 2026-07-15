@@ -56,7 +56,7 @@ export default function documentsView({ profile }) {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'DOCUMENTS' }), el('p', { text: 'Permission slips, newsletters and policies' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Documents' }), el('p', { text: 'Permission slips, newsletters and policies' })]),
     canUpload ? el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' Upload', onclick: upload }) : null,
   ]), grid);
   load();

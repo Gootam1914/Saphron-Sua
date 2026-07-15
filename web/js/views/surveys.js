@@ -83,7 +83,7 @@ export default function surveysView({ profile }) {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'SURVEYS' }), el('p', { text: 'Gather and analyze feedback' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Surveys' }), el('p', { text: 'Gather and analyze feedback' })]),
     canBuild ? el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' New survey', onclick: build }) : null,
   ]), grid);
   load();

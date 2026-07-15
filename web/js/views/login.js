@@ -7,7 +7,7 @@ const BIG = [['google', 'Continue with Google'], ['microsoft', 'Continue with Mi
 
 function heroMarquee() {
   const group = () => el('span', {}, [
-    ...Array.from({ length: 6 }).flatMap(() => [document.createTextNode('EDUCATION FOR ALL '), el('em', { text: '✳ ' })]),
+    ...Array.from({ length: 6 }).flatMap(() => [document.createTextNode('Education For All '), el('em', { text: '✳ ' })]),
   ]);
   return el('div', { class: 'hero-marquee' }, el('div', { class: 'hero-marquee__track' }, [group(), group()]));
 }
@@ -28,7 +28,7 @@ export default function loginView() {
     ]),
     el('div', { class: 'hero-body' }, [
       el('div', { class: 'hero-eyebrow', text: 'Saphron Initiative' }),
-      el('h1', { class: 'hero-word', html: 'SAPHRON<span class="g">SUA</span>' }),
+      el('h1', { class: 'hero-word', html: 'Saphron <span class="g">Sua</span>' }),
       el('div', { class: 'hero-rule' }),
       el('p', { class: 'hero-tag', text: 'The school’s messages, tickets, events, documents and feedback — gathered into one calm place for families, teachers and admins.' }),
     ]),
@@ -75,5 +75,5 @@ export default function loginView() {
   const themeBtn = el('button', { class: 'iconbtn', style: 'position:absolute;top:16px;right:16px;z-index:5', html: icon(currentTheme() === 'dark' ? 'sun' : 'moon'),
     onclick: (e) => { const t = toggleTheme(); e.currentTarget.innerHTML = icon(t === 'dark' ? 'sun' : 'moon'); } });
 
-  return el('div', { class: 'login', style: 'position:relative' }, [themeBtn, hero, el('div', { class: 'login__panel' }, card)]);
+  return el('div', { class: 'login', style: 'position:relative' }, [themeBtn, el('div', { class: 'login__panel' }, card), hero]);
 }

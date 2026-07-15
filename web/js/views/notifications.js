@@ -42,7 +42,7 @@ export default function notificationsView() {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'NOTIFICATIONS' }), el('p', { text: 'Your inbox and preferences' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Notifications' }), el('p', { text: 'Your inbox and preferences' })]),
     el('button', { class: 'btn btn--ghost', html: icon('check', 15) + ' Mark all read', onclick: async () => { await api.post('/notifications/read-all'); if (tab === 'inbox') loadInbox(); } }),
   ]), tabs, panel);
   loadInbox();

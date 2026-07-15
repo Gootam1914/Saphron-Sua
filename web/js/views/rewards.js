@@ -40,7 +40,7 @@ export default function rewardsView({ profile }) {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: isStudent ? 'MY BADGES' : 'REWARDS' }), el('p', { text: isStudent ? 'Everything you have earned' : 'Recognize positive behavior' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: isStudent ? 'My Badges' : 'Rewards' }), el('p', { text: isStudent ? 'Everything you have earned' : 'Recognize positive behavior' })]),
     canGrant ? el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' Award a badge', onclick: grant }) : null,
   ]), body);
   load();

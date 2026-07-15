@@ -11,7 +11,7 @@ export default function messagesView({ params, profile }) {
   wrap.append(listPane, threadPane);
 
   const head = el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'MESSAGES' }), el('p', { text: 'Your conversations' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Messages' }), el('p', { text: 'Your conversations' })]),
     el('div', { style: 'display:flex;gap:10px' }, [
       me.role === 'teacher' ? el('button', { class: 'btn btn--ghost', html: icon('megaphone', 16) + ' Broadcast', onclick: openBroadcast }) : null,
       el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' New message', onclick: openCompose }),

@@ -36,7 +36,7 @@ export default function usersView() {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'USERS' }), el('p', { text: 'Provision accounts, roles and permissions' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Users' }), el('p', { text: 'Provision accounts, roles and permissions' })]),
     el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' Add user', onclick: add }),
   ]), el('div', { style: 'display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center' }, [el('div', { style: 'flex:1;min-width:200px' }, search), tabs]), wrap);
   load();

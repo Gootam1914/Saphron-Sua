@@ -73,7 +73,7 @@ export default function eventsView({ profile }) {
   }
 
   root.append(el('div', { class: 'page-head' }, [
-    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'EVENTS' }), el('p', { text: 'School calendar & RSVPs' })]),
+    el('div', {}, [el('h1', { class: 'display', style: 'font-size:28px', text: 'Events' }), el('p', { text: 'School calendar & RSVPs' })]),
     canCreate ? el('button', { class: 'btn btn--gold', html: icon('plus', 16) + ' New event', onclick: create }) : null,
   ]), grid);
   load();

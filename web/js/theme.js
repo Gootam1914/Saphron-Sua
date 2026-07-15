@@ -1,7 +1,8 @@
 const KEY = 'sua_theme';
 export function initTheme() {
+  // Default to light mode; only honor a previously saved explicit choice.
   const saved = localStorage.getItem(KEY);
-  const theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  const theme = saved === 'dark' || saved === 'light' ? saved : 'light';
   document.documentElement.setAttribute('data-theme', theme);
 }
 export function toggleTheme() {
