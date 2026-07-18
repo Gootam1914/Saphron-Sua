@@ -7,22 +7,35 @@ document.querySelectorAll('.js-signin').forEach((a) => { a.href = APP_URL; });
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* 2) 3D intro: the words "Saphron Sua" zoom toward you and break into
-   the page as you scroll the first screen. */
+/* 2) 3D intro: the words "Saphron Sua" zoom hard toward you and break
+   through into the page. Slow (long scroll), and a ONE-TIME gate — once
+   you pass it, it's removed so you can't scroll back into it. */
 const intro = document.getElementById('intro');
 const introInner = document.getElementById('introInner');
+const introSpacer = document.querySelector('.intro-spacer');
+let introDone = false;
 if (intro) intro.style.pointerEvents = 'none';
+
+function finishIntro() {
+  if (introDone) return;
+  introDone = true;
+  if (introSpacer) introSpacer.remove(); // reclaim the scroll room
+  if (intro) intro.remove();             // gone for good
+  window.scrollTo(0, 0);                 // land at the top of the site
+}
 function introScroll() {
-  if (!intro || !introInner) return;
+  if (introDone || !intro || !introInner) return;
   const vh = window.innerHeight || 800;
-  const p = Math.min(Math.max(window.scrollY / (vh * 1.05), 0), 1);
-  if (reduce) { intro.classList.toggle('done', window.scrollY > 40); return; }
-  const scale = 1 + p * 2.4;      // zoom in
-  const tz = p * 340;             // push toward viewer (3D)
-  const rx = p * 24;              // tip forward
+  if (reduce) { if (window.scrollY > 40) finishIntro(); return; }
+  // Stretch the effect over ~1.9 screens of scrolling -> slower reveal.
+  const p = Math.min(Math.max(window.scrollY / (vh * 1.9), 0), 1);
+  const scale = 1 + p * 4.6;                       // much bigger zoom
+  const tz = p * 760;                              // deeper push toward viewer
+  const rx = p * 34;                               // stronger forward tilt
+  const op = p < 0.72 ? 1 : Math.max(0, 1 - (p - 0.72) / 0.28); // hold, then fade near the end
   introInner.style.transform = `translateZ(${tz}px) scale(${scale}) rotateX(${rx}deg)`;
-  intro.style.opacity = String(Math.max(0, 1 - p * 1.08));
-  intro.classList.toggle('done', p >= 1);
+  intro.style.opacity = String(op);
+  if (p >= 1) finishIntro();
 }
 introScroll();
 window.addEventListener('scroll', introScroll, { passive: true });
